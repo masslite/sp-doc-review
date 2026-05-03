@@ -1,0 +1,119 @@
+run_id	experiment_id	subexperiment_index	name	date	status	removed	reason_for_removal	family	train_sortino	train_sharpe	train_calmar	train_annual_return	train_annual_volatility	train_max_drawdown	train_total_return	train_days	validation_sortino	validation_sharpe	validation_calmar	validation_annual_return	validation_annual_volatility	validation_max_drawdown	validation_total_return	validation_days
+1	0	1	spy_benchmark	2026-03-27	baseline	FALSE		Other / miscellaneous	0.641	0.541	0.160427807486631	0.09	0.167	-0.561		2516.0	0.778	0.709	0.4074074074074070	0.143	0.202	-0.351	0.951	1258.0
+2	1	1	cross_sectional_momentum	2026-03-27	failed	FALSE		Factor / production tuning	0.03	0.021	0.013245033112582800	0.01	0.474	-0.755	0.178	2516.0								1258.0
+3	2	1	lgbm_long_only	2026-03-27	failed	FALSE		ML / transformer								2516.0	0.602							1258.0
+4	3	1	vol_target_ew	2026-03-27	success	TRUE	buggy_backtest	Factor / production tuning								2516.0	1.066		0.5641025641025640	0.088	0.117	-0.156		1258.0
+5	4	1	vol_target_with_costs	2026-03-27	success	TRUE	buggy_backtest	Factor / production tuning								2516.0	0.908							1258.0
+6	5	1	trend_filter	2026-03-27	success	TRUE	buggy_backtest	Factor / production tuning								2516.0	1.323							1258.0
+7	6	1	invvol_weighting	2026-03-27	success	TRUE	buggy_backtest	Factor / production tuning								2516.0	0.933							1258.0
+8	7	1	combined_best	2026-03-27	success	TRUE	buggy_backtest	Factor / production tuning								2516.0	0.944							1258.0
+9	8	1	ml_tilt	2026-03-27	failed	TRUE	buggy_backtest	ML / transformer								2516.0	0.822							1258.0
+10	9	1	robustness	2026-03-27	partial	TRUE	buggy_backtest	Other / miscellaneous								2516.0								1258.0
+11	10	1	data_cleaning	2026-03-27	partial	TRUE	buggy_backtest	Other / miscellaneous								2516.0								1258.0
+12	11	1	corrected_backtest	2026-03-28	success	FALSE		Factor / production tuning								2516.0	1.058	0.775	0.6981981981981980	0.155	0.2	-0.222		1258.0
+13	12	1	walk_forward_realistic_costs	2026-03-28	success	FALSE		Factor / production tuning								2516.0	0.77		0.39453125	0.101		-0.256		1258.0
+14	13	1	alpha_research	2026-03-28	success	FALSE		Intraday / composite								2516.0	1.693			0.153		-0.087		1258.0
+17	16	1	validation_2020_2025	2026-03-28	completed	FALSE		ML / transformer								2516.0	1.074	0.873	0.575	0.198	0.226	-0.344	1.459	1258.0
+18	17	1	walkforward_retrain	2026-03-29	completed	FALSE		ML / transformer								2516.0	0.623	0.501	0.4	0.094	0.188	-0.274	0.566	1258.0
+19	18	1	portfolio_construction	2026-03-29	completed	FALSE		Factor / production tuning								2516.0	1.084		0.6167664670658680	0.206		-0.334	1.543	1258.0
+20	19	1	ensemble_5_seeds	2026-03-29	completed	FALSE		ML / transformer								2516.0	0.982	0.807	0.5545454545454550	0.183		-0.33	1.314	1258.0
+25	24	1	no_cs_5seed_ensemble	2026-03-29	completed	FALSE		ML / transformer								2516.0	1.063		0.5938375350140060	0.212		-0.357	1.609	1258.0
+27	26	1	dynamic_universe	2026-03-29	completed	FALSE		ML / transformer								2516.0	0.618		0.3447098976109220	0.101		-0.293	0.619	1258.0
+28	27	1	quasi_static_universe	2026-03-29	completed	FALSE		ML / transformer								2516.0	0.735		0.37570621468926600	0.133		-0.354	0.866	1258.0
+30	28	1	broad_train_all_symbols	2026-03-29	completed	FALSE		ML / transformer								2516.0	0.406			0.058				1258.0
+43	46	1	dual_stream_fundamentals	2026-03-30	failed	FALSE		ML / transformer								2516.0	0.732		0.38769230769230800	0.126		-0.325	0.809	1258.0
+55	51	1	Sort Reproducibility Validation	2026-03-30	success	FALSE		ML / transformer								2516.0	0.92	0.74	0.460	0.110	0.149	-0.239	0.7	1258.0
+62	54	1	Factor Baselines + ML Blend	2026-03-30	success	FALSE		Factor / production tuning								2516.0	1.102	0.94	0.683	0.121	0.129	-0.177	0.85	1258.0
+63	054d	1	Multi-Seed ML+Mom Blend	2026-03-31	success	FALSE		Factor / production tuning								2516.0	0.996	0.84	0.620	0.110	0.131	-0.177	0.78	1258.0
+65	055c	1	3-Way Blend ML+Mom+LV63d	2026-03-31	success	FALSE		Other / miscellaneous								2516.0	1.428	1.21	0.871	0.115	0.095	-0.132	0.85	1258.0
+67	57	1	3-Factor Holdout Test 2025	2026-03-31	success	FALSE		ML / transformer								2516.0	1.392	1.18	0.823	0.154	0.131	-0.187	0.95	1258.0
+74	64	1	2F N=500 10d Rebal	2026-03-31	success	TRUE	holdout_contaminated	Factor / production tuning								2516.0	1.616	1.30	1.060	0.180	0.139	-0.17	1.05	1258.0
+83	76	1	ML-Filtered Momentum	2026-03-31	failed	TRUE	holdout_contaminated	Factor / production tuning	1.687							2516.0	0.974							1258.0
+84	77	1	Advanced Trend Variants	2026-03-31	success	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	2.238						-0.085	
+85	78	1	Dual TF Robustness	2026-03-31	success	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	2.982						-0.089	
+86	79	1	Short SMA Validation	2026-03-31	success	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	3.424						-0.089	
+89	82	1	Intraday Signals HLR	2026-03-31	success	TRUE	holdout_contaminated	Intraday / composite								2516.0	4.081						-0.085	
+90	83	1	HLR Deep Dive	2026-03-31	success	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	4.142			0.276				1258.0
+93	86	1	VT Optimization	2026-03-31	success	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	4.241						-0.076	
+95	89	1	Market-Neutral L/S	2026-03-31	unknown	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	4.241							1258.0
+96	90	1	Strategy Refinements Grid	2026-03-31	unknown	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	5.11							1258.0
+97	91	1	Asymmetric DTF Fine Grid	2026-03-31	unknown	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	5.146							1258.0
+98	92	1	Combined Refinements	2026-03-31	unknown	TRUE	holdout_contaminated	Event-driven factor								2516.0	6.126							1258.0
+99	93	1	Earnings Momentum Deep Dive	2026-03-31	unknown	TRUE	holdout_contaminated	Event-driven factor								2516.0	5.705							1258.0
+100	94	1	Optimal Combination	2026-03-31	unknown	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	5.893							1258.0
+101	95	1	Factor Weights and Universe	2026-03-31	unknown	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	6.615							1258.0
+103	97	1	Factor-Specific Quantile	2026-03-31	unknown	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	6.783							1258.0
+104	98	1	Market Trend-Following	2026-03-31	unknown	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	7.68							1258.0
+105	99	1	Trend Overlay Robustness	2026-03-31	unknown	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	7.502							1258.0
+107	101	1	Trend Allocation + VT	2026-03-31	unknown	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	8.0							1258.0
+108	102	1	Cost Sensitivity	2026-03-31	unknown	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	8.0							1258.0
+112	107	1	Honest Baseline	2026-03-31	unknown	TRUE	holdout_contaminated, text_spurious_marker	Other / miscellaneous								2516.0	1.022			0.123		-0.215		1258.0
+113	108	1	Honest Improvements	2026-03-31	unknown	TRUE	holdout_contaminated	Other / miscellaneous								2516.0	1.17			0.121				1258.0
+115	2001	1	clean_rederiv_phase1_2f	2026-03-31	success	FALSE		Clean rederivation	1.252	0.981	0.792	0.126	0.128	-0.159	2.268	2516.0	0.746	0.631	0.379	0.107	0.170	-0.283	0.664	1258.0
+116	2002	1	clean_rederiv_phase1_2f	2026-03-31	success	FALSE		Clean rederivation	1.243	0.958	0.745	0.129	0.135	-0.173	2.362	2516.0	0.889	0.725	0.503	0.133	0.183	-0.264	0.862	1258.0
+120	2006	1	clean_rederiv_phase1_2f	2026-03-31	success	FALSE		Clean rederivation	1.213	0.943	0.695	0.128	0.135	-0.184	2.316	2516.0	0.894	0.719	0.511	0.132	0.183	-0.257	0.853	1258.0
+134	2020	1	clean_rederiv_phase1_2f	2026-03-31	success	FALSE		Clean rederivation	1.614	1.122	0.975	0.165	0.147	-0.169	3.604	2516.0	0.995	0.799	0.582	0.137	0.172	-0.236	0.899	1258.0
+160	2046	1	clean_rederiv_phase1_2f	2026-03-31	success	FALSE		Clean rederivation	1.574	1.224	0.836	0.135	0.111	-0.162	2.552	2516.0	1.022	0.800	0.571	0.123	0.153	-0.215	0.781	1258.0
+171	2057	1	clean_rederiv_phase1_negag	2026-03-31	success	FALSE		Clean rederivation	1.131	0.906	0.500	0.169	0.186	-0.337	3.736	2516.0	1.328	0.857	0.681	0.130	0.152	-0.191	0.821	1235.0
+173	2059	1	clean_rederiv_phase1_pead	2026-03-31	success	FALSE		Clean rederivation	1.449	1.166	0.615	0.221	0.189	-0.359	6.327	2516.0	2.038	1.359	1.028	0.252	0.185	-0.245	2.065	1258.0
+175	2061	1	clean_rederiv_phase1_pead	2026-03-31	success	FALSE		Clean rederivation	1.654	1.252	0.768	0.272	0.217	-0.354	10.047	2516.0	2.142	1.366	1.067	0.308	0.226	-0.289	2.827	1258.0
+194	2080	1	clean_rederiv_phase2_2F+PEAD	2026-03-31	success	FALSE		Clean rederivation	1.869	1.397	1.050	0.178	0.127	-0.170	4.137	2516.0	1.383	1.070	0.733	0.184	0.172	-0.251	1.323	1258.0
+195	2081	1	clean_rederiv_phase2_2F+PEAD	2026-03-31	success	FALSE		Clean rederivation	1.950	1.421	1.151	0.200	0.141	-0.174	5.167	2516.0	1.476	1.125	0.787	0.215	0.191	-0.272	1.639	1258.0
+204	2090	1	clean_rederiv_phase2_2F+PEAD	2026-03-31	success	FALSE		Clean rederivation	1.601	1.240	0.844	0.142	0.114	-0.168	2.760	2516.0	1.069	0.839	0.584	0.131	0.156	-0.224	0.846	1258.0
+218	2104	1	clean_rederiv_phase2_3F/4F	2026-03-31	success	FALSE		Clean rederivation	1.823	1.369	1.049	0.181	0.132	-0.172	4.249	2516.0	1.415	1.090	0.733	0.194	0.178	-0.265	1.424	1258.0
+219	2105	1	clean_rederiv_phase2_3F/4F	2026-03-31	success	FALSE		Clean rederivation	1.859	1.381	1.067	0.190	0.137	-0.178	4.660	2516.0	1.447	1.109	0.746	0.207	0.186	-0.277	1.554	1258.0
+312	2198	1	clean_rederiv_phase3_2F+PEAD	2026-03-31	success	FALSE		Clean rederivation	1.950	1.421	1.151	0.200	0.141	-0.174	5.167	2516.0	1.476	1.125	0.787	0.215	0.191	-0.272	1.639	1258.0
+315	2201	1	clean_rederiv_phase3_2F+PEAD	2026-03-31	success	FALSE		Clean rederivation	1.557	1.168	0.935	0.118	0.101	-0.126	2.036	2516.0	1.755	1.276	1.300	0.161	0.126	-0.124	1.109	1258.0
+325	2211	1	clean_rederiv_phase3_3F/4F	2026-03-31	success	FALSE		Clean rederivation	1.466	1.109	1.012	0.116	0.105	-0.115	1.993	2516.0	1.545	1.124	1.027	0.123	0.109	-0.120	0.785	1258.0
+328	2214	1	clean_rederiv_phase3_3F/4F	2026-03-31	success	FALSE		Clean rederivation	1.467	1.124	0.888	0.119	0.105	-0.133	2.059	2516.0	1.396	1.022	0.766	0.113	0.111	-0.149	0.707	1258.0
+349	2229	1	missing_factors_cross_asset_CA_composite	2026-03-31	success	FALSE		Clean rederivation	1.579	1.180	0.951	0.120	0.102	-0.126	2.099	2516.0	2.077	1.404	1.223	0.198	0.141	-0.162	1.464	1258.0
+354	2230	1	missing_factors_cross_asset_SPY_mom	2026-03-31	success	FALSE		Clean rederivation	1.725	1.302	1.119	0.133	0.102	-0.119	2.481	2516.0	2.041	1.419	1.187	0.191	0.135	-0.161	1.394	1258.0
+356	2240	1	missing_factors_cross_asset_CA_composite	2026-03-31	success	FALSE		Clean rederivation	1.579	1.180	0.951	0.120	0.102	-0.126	2.099	2516.0	2.077	1.404	1.223	0.198	0.141	-0.162	1.464	1258.0
+366	202	1	sealed_holdout_2F_PEAD_CA	2026-03-31	success	FALSE		Clean rederivation	1.579	1.180	0.951	0.120	0.102	-0.126	2.099	2516.0	2.077	1.404	1.223	0.198	0.141	-0.162	1.464	1258.0
+367	204	1	VT_on_production	2026-03-31	fail	FALSE		Factor / production tuning								2516.0	1.739							1258.0
+368	205	1	DTF_CA_combination	2026-03-31	success	FALSE		Other / miscellaneous								2516.0	3.182			0.273		-0.084		1258.0
+370	207	1	DTF_CA_systematic_sweep	2026-03-31	success	FALSE		Other / miscellaneous								2516.0	5.142							1258.0
+371	208	1	DTF_CA_realistic_costs	2026-03-31	success	FALSE		Factor / production tuning								2516.0	4.879			0.362				1258.0
+372	209	1	sealed_holdout_DTF_CA	2026-03-31	success	FALSE		Event-driven factor								2516.0	4.879	2.938	4.289	0.362	0.123	-0.084	3.677	1258.0
+373	210	1	DTF_stress_test	2026-04-01	success	FALSE		Other / miscellaneous								2516.0	1.682			0.151		-0.110		1258.0
+389	260	1	Short hedge optimization	2026-04-01	success	FALSE		Short hedge	2.414							2516.0	3.376							1258.0
+392	264	1	Momentum hedge stacking	2026-04-01	success	FALSE		Short hedge	3.243			0.202		-0.123		2516.0	3.697			0.290		-0.123		1258.0
+394	2640	1	INVALIDATED momentum hedge	2026-04-01	buggy	TRUE	status_buggy	Other / miscellaneous								2516.0								1258.0
+395	266	1	Momentum hedge fixed	2026-04-01	failed	FALSE		Factor / production tuning	2.216			0.163				2516.0	3.416			0.299		-0.142		1258.0
+398	267	1	CA-adaptive short	2026-04-01	failed	FALSE		Short hedge	2.330							2516.0	3.493			0.346		-0.153		1258.0
+422	290	1	CS z-scoring short hedge	2026-04-02	success	FALSE		Short hedge	2.413	2.040	1.176	0.162	0.080	-0.137	2.523	2516.0	3.639	2.700	2.605	0.336	0.124	-0.130	2.412	1258.0
+425	293	1	holdout_cs_zscore	2026-04-02	success	FALSE		Other / miscellaneous	2.564							2516.0	3.571							1258.0
+433	300	1	stop_losses	2026-04-02	success	FALSE		Factor / production tuning	2.235			0.193		-0.172		2516.0	2.800			0.291		-0.180		1258.0
+444	314	1	concentrated_short_multiseed	2026-04-02	success	FALSE		Short hedge								2516.0	3.969							1258.0
+446	315	1	concentrated_short_holdout	2026-04-02	success	FALSE		Short hedge								2516.0	3.864			0.396		-0.146		1258.0
+449	317	1	short_universe_size	2026-04-02	success	FALSE		Short hedge								2516.0	4.476							1258.0
+451	320	1	n100_q20_holdout	2026-04-02	success	FALSE		Short hedge	2.418			0.263		-0.151		2516.0	4.355			0.495		-0.127		1258.0
+504	354	1	calmar_opt_short_weight_020	2026-04-03	success	FALSE		Other / miscellaneous	2.343		1.957	0.288		-0.147		2516.0	4.658		5.011	0.576		-0.115		1258.0
+516	359	1	calmar_pead_decay_sweep	2026-04-03	superseded	TRUE	text_spurious_marker	Event-driven factor			2.230					2516.0			6.560					1258.0
+517	360	1	pead_lookahead_fix	2026-04-03	completed	TRUE	text_spurious_marker	Event-driven factor			1.505					2516.0			1.192					1258.0
+522	365	1	si_squeeze_detector	2026-04-03	completed	FALSE		Other / miscellaneous			0.000					2516.0			0.107					1258.0
+523	366	1	si_fit_robustness	2026-04-03	completed	FALSE		Other / miscellaneous			0.000					2516.0			0.182					1258.0
+546	389	1	persistence_decomposition	2026-04-03	negative	FALSE		Other / miscellaneous			1.505					2516.0			3.570					1258.0
+588	420	1	Pairs cointegration	2026-04-04	dead	FALSE		Other / miscellaneous								2516.0								1258.0
+640	466	1	Idio Momentum Robustness	2026-04-04	diagnostic	FALSE		Diagnostics / invalidation								2516.0			1.815					1258.0
+643	464	2	Idio Momentum LS discovery	2026-04-04	promising	FALSE		Other / miscellaneous			0.864					2516.0			4.389					1258.0
+669	477c	1	Holdout: Polygon	2026-04-05	completed	FALSE		Other / miscellaneous	2.970		1.875					2516.0	3.038		3.517	0.312		-0.089		1258.0
+670	481	1	param_sweep	2026-04-05	completed	FALSE		Other / miscellaneous			2.949					2516.0			4.234					1258.0
+672	481c	1	refined_best	2026-04-05	completed	FALSE		Other / miscellaneous	3.410		2.543	0.256		-0.101		2516.0	3.656		4.335	0.373		-0.086		1258.0
+673	482	1	factor_tuning	2026-04-05	completed	FALSE		Other / miscellaneous	3.253		2.543	0.271		-0.107		2516.0	3.574		4.426	0.404		-0.091		1258.0
+674	483	1	ca_and_overlay_tuning	2026-04-05	completed	FALSE		Cross-asset overlay	3.565		2.705	0.299		-0.111		2516.0	3.730		4.771	0.438		-0.092		1258.0
+675	484	1	Sealed dv_stable_700+60%IdioMom	2026-04-05	success	FALSE		Other / miscellaneous	3.795		3.047	0.328		-0.108		2516.0	3.722		4.558	0.456		-0.100		1258.0
+683	490	1	Post-ETF parameter check	2026-04-05	confirmed	FALSE		Other / miscellaneous	3.780		2.651					2516.0	3.661		4.162	0.490		-0.118		1258.0
+690	497	1	Holdout post-ETF	2026-04-05	holdout	FALSE		Other / miscellaneous	3.780		2.651	0.348		-0.131		2516.0	3.661		4.162	0.490		-0.118		1258.0
+705	503b	5	SignRatioProd_3F	2026-04-06	success	FALSE		Factor / production tuning			0.702					2516.0	1.538		1.311	0.165				1258.0
+792	509	1	CrossAssetStockSelection	2026-04-06	marginal	FALSE		Other / miscellaneous			-0.731					2516.0			0.490					1258.0
+800	511	1	Holdout_MomCA_Core	2026-04-06	holdout	FALSE		Other / miscellaneous			0.736					2516.0			1.642					1258.0
+820	514b	2	Perm10pct_Smart_SMA100	2026-04-06	success	FALSE		Other / miscellaneous			0.788					2516.0			1.656			-0.126		1258.0
+830	519b	1	Sector_neutral_blend20	2026-04-06	success	FALSE		Other / miscellaneous			0.965					2516.0			1.768	0.218		-0.123		1258.0
+841	522b	2	MomAccelBlend	2026-04-06	exploring	FALSE		Other / miscellaneous			1.547					2516.0			2.335					1258.0
+842	527	1	MomAccel_DateAlignmentBug	2026-04-06	failed	FALSE		Other / miscellaneous								2516.0								1258.0
+850	530_m9	1	60% core + 40% SN Mom12-1	2026-04-06	backfill	FALSE		Backfill / milestone	1.707	1.163	1.107	0.173	0.149	-0.157	3.933	2516.0	1.833	1.335	1.984	0.228	0.171	-0.115	1.789	1258.0
+851	530_m10	1	60% core + 40% SN Mom6-1	2026-04-06	backfill	FALSE		Backfill / milestone	1.898	1.177	1.233	0.189	0.160	-0.153	4.619	2516.0	1.843	1.356	1.843	0.227	0.167	-0.123	1.776	1258.0
+891	530d_s10	1	SN 50% Mom6-1	2026-04-06	backfill	FALSE		Backfill / milestone	2.026	1.142	1.324	0.200	0.175	-0.151	5.190	2516.0	1.868	1.373	1.836	0.227	0.166	-0.124	1.782	1258.0
+912	533_penalty_25	1	momentum_quality_filter	2026-04-07	completed	FALSE		Other / miscellaneous	1.965	1.220	1.324	0.196	0.161	-0.148	4.996	2516.0	1.938	1.421	2.043	0.242	0.170	-0.118	1.945	1258.0
+918	536	1	sic_sector_assignment	2026-04-07	completed	FALSE		Other / miscellaneous	2.013	1.290	1.352	0.202	0.156	-0.149	5.261	2516.0	1.880	1.362	1.838	0.232	0.171	-0.126	1.839	1258.0
