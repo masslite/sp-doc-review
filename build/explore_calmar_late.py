@@ -67,8 +67,8 @@ ax = axes[0]
 for r0, r1, lbl, color in regions:
     ax.axvspan(r0, r1, color=color, alpha=0.08, zorder=0)
 
-ax.scatter(invalid.run_id, invalid.validation_calmar, s=22,
-           color="#bdbdbd", alpha=0.6,
+ax.scatter(invalid.run_id, invalid.validation_calmar, s=70, marker="x",
+           color="#888888", alpha=0.7, linewidths=1.4,
            label=f"removed=TRUE (n={len(invalid)})", zorder=2)
 ax.scatter(valid.run_id, valid.validation_calmar, s=32,
            color="#5b2c6f", alpha=0.85, edgecolor="white", linewidth=0.4,
@@ -100,8 +100,8 @@ ax = axes[1]
 for r0, r1, lbl, color in regions:
     ax.axvspan(r0, r1, color=color, alpha=0.08, zorder=0)
 
-ax.scatter(invalid.run_id, invalid.validation_calmar, s=22,
-           color="#bdbdbd", alpha=0.6, zorder=2)
+ax.scatter(invalid.run_id, invalid.validation_calmar, s=70, marker="x",
+           color="#888888", alpha=0.7, linewidths=1.4, zorder=2)
 ax.scatter(valid.run_id, valid.validation_calmar, s=32,
            color="#5b2c6f", alpha=0.85, edgecolor="white", linewidth=0.4,
            zorder=3)
@@ -141,8 +141,9 @@ for r0, r1, lbl, color in regions:
             color=color, fontweight="bold")
 
 ax.scatter(invalid[invalid.validation_calmar < 3].run_id,
-           invalid[invalid.validation_calmar < 3].validation_calmar, s=22,
-           color="#bdbdbd", alpha=0.6, zorder=2)
+           invalid[invalid.validation_calmar < 3].validation_calmar, s=70,
+           marker="x", color="#888888", alpha=0.7, linewidths=1.4,
+           label="removed=TRUE", zorder=2)
 ax.scatter(valid[valid.validation_calmar < 3].run_id,
            valid[valid.validation_calmar < 3].validation_calmar, s=42,
            color="#5b2c6f", alpha=0.85, edgecolor="white", linewidth=0.4,

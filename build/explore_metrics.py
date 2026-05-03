@@ -47,9 +47,9 @@ for ax, (col, name, spy_val, color) in zip(axes, METRICS):
     # Running best on the VALID runs only
     valid["running_best"] = valid[col].cummax()
 
-    # Scatter all points
-    ax.scatter(invalid.run_id, invalid[col], s=22,
-               color="#bdbdbd", alpha=0.55,
+    # Scatter all points (removed=TRUE as X markers)
+    ax.scatter(invalid.run_id, invalid[col], s=70, marker="x",
+               color="#888888", alpha=0.7, linewidths=1.4,
                label=f"removed=TRUE (n={len(invalid)})",
                zorder=2)
     ax.scatter(valid.run_id, valid[col], s=28,
