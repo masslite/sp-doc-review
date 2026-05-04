@@ -45,19 +45,28 @@ plt.rcParams.update({
 CALMAR_THRESHOLD = 2.05
 SHARPE_TO_SORTINO = 0.762  # empirical median (std 0.069 on n=38)
 
+# Threshold any metric whose value implies Calmar would have exceeded 2.05.
+# Using the median Sortino/Calmar ratio in valid data (~1.3) and the median
+# Sharpe/Sortino ratio (0.762):
+#   Calmar > 2.05 implies Sortino > 2.05 / (Calmar/Sortino) ≈ 2.5
+#   Sortino > 2.5 implies Sharpe  > 2.5 × 0.762        ≈ 1.9
+# Anchored thresholds (rounded to be conservative — won't catch any of
+# the legit late-campaign cluster which sits around Sortino 1.8-2.0):
+SORTINO_THRESHOLD = 2.50
+SHARPE_THRESHOLD  = 1.90
+
 df = pd.read_csv(DATA, sep="\t")
 df["removed"] = df.removed.astype(bool)
 spy = df[df.run_id == 1].iloc[0]
 
-# Strict invalidation: removed=TRUE OR Calmar > threshold
-df["strict_invalid"] = df.removed | (
-    df.validation_calmar.notna() & (df.validation_calmar > CALMAR_THRESHOLD)
-)
-df["calmar_flagged"] = (
-    (~df.removed)
-    & df.validation_calmar.notna()
-    & (df.validation_calmar > CALMAR_THRESHOLD)
-)
+# Strict invalidation: removed=TRUE OR any metric exceeds its threshold
+calmar_flag  = df.validation_calmar.notna()  & (df.validation_calmar  > CALMAR_THRESHOLD)
+sortino_flag = df.validation_sortino.notna() & (df.validation_sortino > SORTINO_THRESHOLD)
+sharpe_flag  = df.validation_sharpe.notna()  & (df.validation_sharpe  > SHARPE_THRESHOLD)
+df["strict_invalid"] = df.removed | calmar_flag | sortino_flag | sharpe_flag
+df["calmar_flagged"]  = (~df.removed) & calmar_flag
+df["sortino_flagged"] = (~df.removed) & sortino_flag & (~calmar_flag)
+df["sharpe_flagged"]  = (~df.removed) & sharpe_flag  & (~calmar_flag) & (~sortino_flag)
 
 # Estimated Sharpe for rows missing Sharpe but having Sortino
 df["sharpe_recorded"] = df.validation_sharpe.notna()
@@ -77,12 +86,22 @@ df["validation_annual_return_est"] = (
 
 print(f"Rows: {len(df)}")
 print(f"removed=TRUE: {df.removed.sum()}  "
-      f"calmar_flagged>2.05: {df.calmar_flagged.sum()}  "
+      f"calmar>{CALMAR_THRESHOLD}: {df.calmar_flagged.sum()}  "
+      f"sortino>{SORTINO_THRESHOLD} (no calmar): {df.sortino_flagged.sum()}  "
+      f"sharpe>{SHARPE_THRESHOLD} (no calmar/sortino): {df.sharpe_flagged.sum()}  "
       f"strict_invalid total: {df.strict_invalid.sum()}")
 print()
-print("Calmar-flagged runs (newly invalidated under strict rule):")
+print("Calmar-flagged runs:")
 print(df[df.calmar_flagged][["run_id","name","validation_sortino",
                               "validation_sharpe","validation_calmar"]].to_string())
+print()
+print("Sortino-flagged runs (Calmar wasn't recorded but Sortino above threshold):")
+print(df[df.sortino_flagged][["run_id","name","validation_sortino",
+                                "validation_sharpe","validation_calmar"]].to_string())
+print()
+print("Sharpe-flagged runs (above Sharpe threshold, neither Calmar nor Sortino above):")
+print(df[df.sharpe_flagged][["run_id","name","validation_sortino",
+                               "validation_sharpe","validation_calmar"]].to_string())
 print()
 print(f"Sharpe estimable from Sortino: {df.sharpe_estimated.sum()} rows")
 print(f"AnnReturn estimable from Calmar×|MaxDD|: {df.ar_estimable.sum()} rows")
@@ -225,12 +244,14 @@ for ax, (plot_col, raw_col, _rec_flag, name, spy_v, color) in zip(metric_axes, M
                    marker="x", color="#c0392b", alpha=0.85, linewidths=1.6,
                    label=f"Invalid, recorded (n={len(invalid_recorded)})", zorder=3)
 
-    # NEW: Calmar-flagged with value (orange triangle)
-    if len(calmar_flag_with_value):
-        ax.scatter(calmar_flag_with_value.run_id, calmar_flag_with_value[plot_col],
+    # NEW: any-metric-flagged with value (orange triangle)
+    flagged_any = df[(df.calmar_flagged | df.sortino_flagged | df.sharpe_flagged)
+                     & df[plot_col].notna()]
+    if len(flagged_any):
+        ax.scatter(flagged_any.run_id, flagged_any[plot_col],
                    s=110, marker="^", facecolor="#f39c12", edgecolor="#7d3c0c",
                    linewidth=1.0, alpha=0.9,
-                   label=f"Calmar>{CALMAR_THRESHOLD} flag (n={len(calmar_flag_with_value)})",
+                   label=f"Strict-rule flag (n={len(flagged_any)})",
                    zorder=3)
 
     # invalid estimated: hollow X
@@ -278,7 +299,8 @@ for ax in [ax_strip] + metric_axes:
     ax.axvspan(74, 113, color="#c0392b", alpha=0.07, zorder=0)
 
 fig.suptitle(
-    f"Strict view: any run with Calmar > {CALMAR_THRESHOLD} treated as invalid; "
+    f"Strict view: invalid if Calmar > {CALMAR_THRESHOLD} OR "
+    f"Sortino > {SORTINO_THRESHOLD} OR Sharpe > {SHARPE_THRESHOLD}; "
     f"missing Sharpe estimated as 0.76×Sortino\n"
     f"({len(df)} TSV rows; "
     f"strict_invalid = {df.strict_invalid.sum()} runs)",
