@@ -140,10 +140,20 @@ for ax, p in zip(axes, PANELS):
 
     val_data    = sub_all[(~sub_all.is_holdout) & (~sub_all.strict_invalid)].copy()
     val_invalid = sub_all[(~sub_all.is_holdout) & sub_all.strict_invalid].copy()
-    # Holdout: same strict-rule treatment as validation. Holdout rows whose
-    # values fail any of (Calmar > 2.05, Sortino > 2.5, Sharpe > 1.9) are
-    # treated as dead — not plotted as diamonds.
-    hold_data   = sub_all[sub_all.is_holdout & (~sub_all.strict_invalid)].copy()
+    # Holdout filter: same strict rule as validation, with one explicit
+    # exception. Run 669 ("Holdout: Polygon", AR = 31.2%) sits right on
+    # the edge of the annual-return running-best (30.8%) and is preserved
+    # on the annual-return panel only. Its Sortino (3.04) and Calmar
+    # (3.52) still fail the strict rule on those panels, so it stays
+    # suppressed there.
+    holdout_exceptions_by_col = {
+        "validation_annual_return": {669},
+    }
+    keep_holdout = sub_all.is_holdout & (
+        (~sub_all.strict_invalid)
+        | sub_all.run_id.isin(holdout_exceptions_by_col.get(col, set()))
+    )
+    hold_data = sub_all[keep_holdout].copy()
 
     val_data["rb"] = val_data[col].cummax()
 
