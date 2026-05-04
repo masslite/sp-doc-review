@@ -140,7 +140,10 @@ for ax, p in zip(axes, PANELS):
 
     val_data    = sub_all[(~sub_all.is_holdout) & (~sub_all.strict_invalid)].copy()
     val_invalid = sub_all[(~sub_all.is_holdout) & sub_all.strict_invalid].copy()
-    hold_data   = sub_all[sub_all.is_holdout].copy()
+    # Holdout: same strict-rule treatment as validation. Holdout rows whose
+    # values fail any of (Calmar > 2.05, Sortino > 2.5, Sharpe > 1.9) are
+    # treated as dead — not plotted as diamonds.
+    hold_data   = sub_all[sub_all.is_holdout & (~sub_all.strict_invalid)].copy()
 
     val_data["rb"] = val_data[col].cummax()
 
