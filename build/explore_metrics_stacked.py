@@ -90,7 +90,8 @@ PANELS = [
         "name":        "Annual return",
         "color":       "#2c7b3a",   # dark green
         "color_hold":  "#7dc28a",   # light green
-        "ymax":        0.50,
+        "ymin":        0.05,        # cutoff at 5%
+        "ymax":        0.40,        # cap at 40%
         "as_pct":      True,
         "spy_col":     "validation_annual_return",
     },
@@ -99,6 +100,7 @@ PANELS = [
         "name":        "Sharpe",
         "color":       "#1d4ed8",   # dark blue
         "color_hold":  "#7aaee8",   # light blue
+        "ymin":        0.50,        # cutoff at 0.5
         "ymax":        2.20,
         "as_pct":      False,
         "spy_col":     "validation_sharpe",
@@ -108,6 +110,7 @@ PANELS = [
         "name":        "Calmar",
         "color":       "#5b2c6f",   # dark purple
         "color_hold":  "#b18ac4",   # light purple
+        "ymin":        0.0,
         "ymax":        2.20,
         "as_pct":      False,
         "spy_col":     "validation_calmar",
@@ -209,8 +212,7 @@ for ax, p in zip(axes, PANELS):
 
     # ---- y-axis & primary legend (top-left) ----
     ax.set_ylabel(name)
-    ax.set_ylim(0 if name != "Annual return" else min(0, sub_all[col].min() * 1.05),
-                ymax)
+    ax.set_ylim(p["ymin"], ymax)
     if as_pct:
         ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{x*100:.0f}%"))
         ax.yaxis.set_major_locator(MultipleLocator(0.10))
