@@ -154,7 +154,7 @@ for j, (plot_col, raw_col, _rec_flag, name, _spy, color) in enumerate(METRICS):
             ax_strip.scatter(x, j, marker="s", s=44, facecolor="white",
                              edgecolor=color, linewidths=1.2, alpha=0.8)
         elif estimated and is_inv:
-            ax_strip.scatter(x, j, marker="x", s=30, color="#888888",
+            ax_strip.scatter(x, j, marker="x", s=30, color="#aaaaaa",
                              alpha=0.6, linewidths=1.0)
         # else blank
 
@@ -163,8 +163,9 @@ ax_strip.set_yticklabels([m[3] for m in METRICS], fontsize=10)
 ax_strip.set_ylim(-0.6, 3.6)
 ax_strip.set_title(
     f"Per-run coverage  (■ recorded valid · □ estimated valid · "
-    f"× recorded invalid (strict: removed=TRUE OR Calmar>{CALMAR_THRESHOLD}) · blank = neither)",
-    fontsize=10.5,
+    f"× invalid: removed=TRUE OR Calmar>{CALMAR_THRESHOLD} OR "
+    f"Sortino>{SORTINO_THRESHOLD} OR Sharpe>{SHARPE_THRESHOLD} · blank = neither)",
+    fontsize=10,
 )
 ax_strip.grid(True, axis="y", alpha=0.2, ls="--", lw=0.4)
 ax_strip.spines["left"].set_visible(False)
@@ -189,8 +190,9 @@ for ax, (plot_col, raw_col, _rec_flag, name, spy_v, color) in zip(metric_axes, M
 
     valid_recorded   = df[recorded_mask & (~df.strict_invalid)]
     valid_estimated  = df[estimated_mask & (~df.strict_invalid)]
-    invalid_recorded = df[recorded_mask & df.strict_invalid & (~df.calmar_flagged)]
-    calmar_flag_with_value = df[df.calmar_flagged & df[plot_col].notna()]
+    # All invalidated rows (whether removed=TRUE or flagged by strict rule)
+    # are treated identically — single "invalid" category, single marker.
+    invalid_recorded = df[recorded_mask & df.strict_invalid]
     invalid_estimated = df[estimated_mask & df.strict_invalid]
 
     # also rows missing this metric entirely
@@ -238,23 +240,13 @@ for ax, (plot_col, raw_col, _rec_flag, name, spy_v, color) in zip(metric_axes, M
                    marker="o", facecolor="white", edgecolor=color, linewidth=1.4,
                    label=f"Valid, estimated (n={len(valid_estimated)})", zorder=4)
 
-    # invalid recorded (orig): red X
+    # invalid + recorded: red X (everything that's invalid for any reason)
     if len(invalid_recorded):
         ax.scatter(invalid_recorded.run_id, invalid_recorded[plot_col], s=85,
                    marker="x", color="#c0392b", alpha=0.85, linewidths=1.6,
                    label=f"Invalid, recorded (n={len(invalid_recorded)})", zorder=3)
 
-    # NEW: any-metric-flagged with value (orange triangle)
-    flagged_any = df[(df.calmar_flagged | df.sortino_flagged | df.sharpe_flagged)
-                     & df[plot_col].notna()]
-    if len(flagged_any):
-        ax.scatter(flagged_any.run_id, flagged_any[plot_col],
-                   s=110, marker="^", facecolor="#f39c12", edgecolor="#7d3c0c",
-                   linewidth=1.0, alpha=0.9,
-                   label=f"Strict-rule flag (n={len(flagged_any)})",
-                   zorder=3)
-
-    # invalid estimated: hollow X
+    # invalid + estimated: hollow X
     if len(invalid_estimated):
         ax.scatter(invalid_estimated.run_id, invalid_estimated[plot_col], s=70,
                    marker="x", color="#aaaaaa", alpha=0.6, linewidths=1.0,
@@ -265,6 +257,20 @@ for ax, (plot_col, raw_col, _rec_flag, name, spy_v, color) in zip(metric_axes, M
         ax.step(valid_all.run_id, valid_all.rb, where="post", color=color,
                 linewidth=2.0, alpha=0.85,
                 label="Running best (recorded + estimated)", zorder=5)
+        # Annotate the late-campaign peak (run >= 800) on the running best
+        late = valid_all[valid_all.run_id >= 800]
+        if len(late):
+            peak = late.loc[late["v"].idxmax()]
+            ax.annotate(
+                f"late peak: {peak['v']:.2f}\n"
+                f"({peak['name'][:30]},\n"
+                f" run {int(peak.run_id)})",
+                xy=(peak.run_id, peak["v"]),
+                xytext=(peak.run_id - 320,
+                        peak["v"] + 0.10 * (ymax - ymin)),
+                fontsize=8.5, color=color, fontweight="bold",
+                arrowprops=dict(arrowstyle="->", color=color, lw=0.8),
+            )
 
     # SPY baseline + Calmar threshold
     if not np.isnan(spy_v):
