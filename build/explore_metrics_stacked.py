@@ -170,6 +170,13 @@ for ax, p in zip(axes, PANELS):
             rb_source = pd.concat([rb_source, bonus], ignore_index=True)
             rb_source = rb_source.sort_values("run_id").reset_index(drop=True)
     rb_source["rb"] = rb_source[col].cummax()
+    # New-best transition rows: value strictly greater than the running max
+    # *up to but not including* this row. The very first row of rb_source
+    # is treated as the initial best.
+    is_new_best = rb_source[col].values > np.concatenate(
+        [[-np.inf], rb_source["rb"].values[:-1]]
+    )
+    rb_source["is_new_best"] = is_new_best
 
     val_data["rb"] = val_data[col].cummax()    # ---- validation: filled dark markers + running best ----
     ax.scatter(val_data.run_id, val_data[col], s=34, color=color,
@@ -182,6 +189,14 @@ for ax, p in zip(axes, PANELS):
                    label=f"Invalidated (n={len(val_invalid)})", zorder=3)
     ax.step(rb_source.run_id, rb_source["rb"], where="post", color=color,
             linewidth=2.0, alpha=0.9, label="Validation running best", zorder=5)
+
+    # Circle the dots that establish a new best
+    new_bests = rb_source[rb_source["is_new_best"]]
+    if len(new_bests):
+        ax.scatter(new_bests.run_id, new_bests[col], s=160,
+                   marker="o", facecolor="none", edgecolor=color,
+                   linewidth=1.6, alpha=0.95, zorder=6,
+                   label=f"New best (n={len(new_bests)})")
 
     # ---- holdout points: lighter diamonds, NO fit ----
     if len(hold_data):
