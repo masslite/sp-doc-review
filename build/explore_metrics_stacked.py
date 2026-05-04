@@ -185,15 +185,15 @@ for ax, p in zip(axes, PANELS):
 
     if pow_c is not None:
         ax.plot(xfit_full, pow_anchored(xfit_full, pow_c, pow_d, spy_v), "--",
-                color=color, linewidth=1.8, alpha=0.85, zorder=7,
-                label="Power-law fit (anchored at SPY)")
+                color=color, linewidth=1.8, alpha=0.85, zorder=7)
 
-    # ---- SPY baseline ----
+    # ---- SPY baseline (no label here — it goes in the bottom-right legend) ----
     if pd.notna(spy[spy_col]):
         spy_v = float(spy[spy_col])
         spy_label = (f"SPY ({spy_v*100:.1f}%)" if as_pct else f"SPY ({spy_v:.2f})")
-        ax.axhline(spy_v, ls=":", color="#e67e22", linewidth=1.2,
-                   label=spy_label, zorder=1)
+        ax.axhline(spy_v, ls=":", color="#e67e22", linewidth=1.2, zorder=1)
+    else:
+        spy_label = None
 
     # ---- running best annotation ----
     if len(val_data):
@@ -219,16 +219,22 @@ for ax, p in zip(axes, PANELS):
     ax.add_artist(legend1)
     ax.grid(True, alpha=0.25, ls="--", lw=0.5)
 
-    # ---- secondary fit legend (bottom-right), matched stylization ----
+    # ---- secondary legend (bottom-right): fit equation + SPY line ----
+    from matplotlib.lines import Line2D
+    proxies = []
     if pow_c is not None and spy_v is not None:
+        # Equation, R² on same line, all values to 2 significant digits
         if as_pct:
-            eqn = (f"y = {spy_v*100:.1f}% + {pow_c*100:.2f}% × (x − 1)^{pow_d:.3f}\n"
-                   f"R² = {pow_r2:.3f}     (anchored at SPY, x = run_id)")
+            eqn = (f"y = {spy_v*100:.2g}% + {pow_c*100:.2g}% × (x−1)^{pow_d:.2g}, "
+                   f"R² = {pow_r2:.2g}")
         else:
-            eqn = (f"y = {spy_v:.3f} + {pow_c:.3f} × (x − 1)^{pow_d:.3f}\n"
-                   f"R² = {pow_r2:.3f}     (anchored at SPY, x = run_id)")
-        from matplotlib.lines import Line2D
-        proxies = [Line2D([0], [0], color=color, ls="--", lw=1.8, label=eqn)]
+            eqn = (f"y = {spy_v:.2g} + {pow_c:.2g} × (x−1)^{pow_d:.2g}, "
+                   f"R² = {pow_r2:.2g}")
+        proxies.append(Line2D([0], [0], color=color, ls="--", lw=1.8, label=eqn))
+    if spy_label is not None:
+        proxies.append(Line2D([0], [0], color="#e67e22", ls=":", lw=1.2,
+                              label=spy_label))
+    if proxies:
         legend2 = ax.legend(handles=proxies, loc="lower right",
                             ncol=1, **LEGEND_KW)
 
